@@ -1,0 +1,25 @@
+{
+  "name": "dauryuk-be",
+  "version": "1.0.0",
+  "description": "DaurYuk Backend project, written in JavaScript and run on Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaurYuk/DaurYuk-BE.git"
+  },
+  "keywords": [
+    "backend",
+    "nodejs",
+    "express",
+    "dauryuk"
+  ],
+  "author": "C241-PS480",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaurYuk/DaurYuk-BE/issues"
+  },
+  "homepage": "https://github.com/DaurYuk/DaurYuk-BE#readme"
+}
