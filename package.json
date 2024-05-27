@@ -4,6 +4,7 @@
   "description": "DaurYuk Backend project, written in JavaScript and run on Node.js",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/DaurYuk/DaurYuk-BE/issues"
   },
-  "homepage": "https://github.com/DaurYuk/DaurYuk-BE#readme"
+  "homepage": "https://github.com/DaurYuk/DaurYuk-BE#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.3.9",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.13"
+  }
 }

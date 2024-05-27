@@ -1,5 +1,8 @@
 # .gitignore template for Express.js project, courtesy https://github.com/expressjs/express/blob/master/.gitignore
 
+#.env
+*.env
+
 # npm
 node_modules
 package-lock.json
