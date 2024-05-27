@@ -1,4 +1,4 @@
-const { sendSuccess } = require('../../utils/send');
+const { sendSuccess } = require('../../utils/server/send');
 
 function ping(_, res) {
   return sendSuccess(res, 200, {
