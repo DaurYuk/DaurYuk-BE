@@ -1,5 +1,5 @@
-function log(req, _) {
-  console.log(`${req.method.toUpperCase()} | ${req.path} | ${req.info.remoteAddress} | ${(new Date()).toISOString()}`)
+function log(req, res) {
+  console.log(`${(new Date()).toISOString()} | ${req.response.statusCode} | ${req.info.remoteAddress} | ${req.method.toUpperCase()} | ${req.path}`)
 }
 
 module.exports = log;

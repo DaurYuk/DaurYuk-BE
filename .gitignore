@@ -16,5 +16,8 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
+# Google Cloud Service Account Private Key
+service-account.json
+
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore
