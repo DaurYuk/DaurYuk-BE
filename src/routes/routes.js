@@ -1,40 +1,22 @@
-const hapi = require('@hapi/hapi');
-const ping = require('../controllers/misc/ping');
+// Express dependency
+const express = require('express');
+
+// Middlwares
 const log = require('../middlewares/log');
-const { users } = require('../models/firestore');
-const { sendSuccess } = require('../utils/server/send');
-const Signup = require('../controllers/user/signup');
 
-const initServer = async (port) => {
-  const app = hapi.server({
-    port: port,
-    host: '0.0.0.0',
-    info: {
-      // enable remote for logging IP address
-      remote: true
-    }
-  });
+// Routes
+const ping = require('../controllers/misc/ping');
+const SignupController = require('../controllers/user/signup');
 
-  // Log Middleware
-  app.ext('onPreResponse', (req, res) => {
-    log(req, res)
-    return res.continue;
-  });
+const app = express();
 
-  app.route([
-    {
-      method: 'GET',
-      path: '/ping',
-      handler: ping
-    },
-    {
-      'method': 'POST',
-      path: '/firestore-test',
-      handler: Signup 
-    }
-  ])
+app.use(log);
+app.use(express.json());
 
-  return app;
-}
+// Ping
+app.get('/ping', ping);
 
-module.exports = initServer;
+// User Credentials
+app.post('/register', SignupController);
+
+module.exports = app;

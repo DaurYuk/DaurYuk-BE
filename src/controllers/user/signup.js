@@ -1,5 +1,7 @@
-function Signup(req, res) {
-  const body = req.payload;
+const { sendSuccess } = require('../../utils/server/send')
+
+function SignupController(req, res) {
+  const body = req.body;
   // users.doc('email').set({
   //   'email': body.email
   // });
@@ -8,4 +10,4 @@ function Signup(req, res) {
   })
 }
 
-module.exports = Signup;
+module.exports = SignupController;

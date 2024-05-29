@@ -1,19 +1,19 @@
 function sendSuccess(res, statusCode, data) {
   const successMsg = {
     status: 'success',
-    code: statusCode,
+    statusCode: statusCode,
     ...data
   };
-  return res.response(successMsg).code(statusCode);
+  return res.status(statusCode).json(successMsg);
 }
 
 function sendError(res, statusCode, msg) {
   const failMsg = {
     status: 'fail',
-    code: statusCode,
+    statusCode: statusCode,
     message: msg,
   };
-  return res.response(failMsg).code(statusCode);
+  return res.status(statusCode).json(failMsg);
 }
 
 module.exports = {
