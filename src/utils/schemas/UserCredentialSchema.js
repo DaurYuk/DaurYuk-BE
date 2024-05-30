@@ -1,4 +1,4 @@
-const emailRegisterSchema = {
+const userCredentialSchema = {
   email: {
     isEmail: {
       bail: true,
@@ -11,4 +11,4 @@ const emailRegisterSchema = {
   },
 }
 
-module.exports = emailRegisterSchema;
+module.exports = userCredentialSchema;
