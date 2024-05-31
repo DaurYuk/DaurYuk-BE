@@ -8,10 +8,11 @@ const initFirestore = () => {
       projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
       keyFilename: process.env.SERVICE_ACCOUNT_KEY_NAME
     })
+    db
   }
   return db;
 }
 
 module.exports = {
-  users: initFirestore().collection('users'),
+  usersDb: initFirestore().collection('users'),
 }
