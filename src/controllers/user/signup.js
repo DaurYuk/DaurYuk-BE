@@ -4,6 +4,7 @@ const ResponseError = require('../../utils/errors/ResponseError');
 const { usersDb } = require('../../models/firestore');
 const crypto = require('crypto');
 const { encryptPassword } = require('../../utils/encryption/bcrypt');
+const sendVerifyAccountLink = require('../../utils/email/templates/verify_account');
 
 async function SignupController(req, res) {
   try {
@@ -22,15 +23,17 @@ async function SignupController(req, res) {
 
     const newUserUuid = crypto.randomUUID();
 
+    const verifyToken = crypto.randomBytes(48).toString('hex');
+    
     await usersDb.doc(newUserUuid).set({
       id: newUserUuid,
       email: email,
       password: await encryptPassword(password),
       isVerified: false,
-      verificationToken: crypto.randomBytes(48).toString('hex')
-      // later will be implemented
-      // verifyToken: 
+      verificationToken: verifyToken
     });
+
+    sendVerifyAccountLink(verifyToken, email);
 
     return sendSuccess(res, 201, {
       'message': 'Your account has been created. Please check your email for account activation'
