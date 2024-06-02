@@ -19,6 +19,7 @@ const GetDetectionHistoryController = require('../controllers/detection/history'
 const SetProfileController = require('../controllers/user/profile');
 const { GetArticlesListController, GetArticleController } = require('../controllers/article/get_article');
 
+
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
 const RegisterSchema = require('../utils/schemas/RegisterSchema');
@@ -43,5 +44,24 @@ app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryControlle
 // Articles
 app.get('/articles', GetArticlesListController);
 app.get('/article/:id', GetArticleController)
+
+// Get Profile Information
+exports.getProfileInformation = async (req, res) => {
+    try {
+      const { id } = req.token;
+      const user = await getUserDataFromFirestore(id);
+  
+      if (!user) {
+        return sendError(res, 404, 'User not found');
+      }
+  
+      // Remove sensitive information from user object before sending it to the client
+      const { password, ...userProfile } = user;
+  
+      return sendSuccess(res, 200, userProfile);
+    } catch (error) {
+      return sendError(res, 500, 'Internal server error');
+    }
+  };
 
 module.exports = app;
