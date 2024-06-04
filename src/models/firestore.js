@@ -15,4 +15,5 @@ const initFirestore = () => {
 
 module.exports = {
   usersDb: initFirestore().collection('users'),
+  detectionHistoryDb: initFirestore().collection('detection_history'),
 }
