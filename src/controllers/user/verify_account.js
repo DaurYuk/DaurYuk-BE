@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const ResponseError = require("../../utils/errors/ResponseError");
 const { sendSuccess, sendError } = require("../../utils/server/send");
 const { usersDb } = require("../../models/firestore");
+const { FieldValue } = require("@google-cloud/firestore");
 
 async function VerifyAccountController(req, res) {
   try {
@@ -16,18 +17,20 @@ async function VerifyAccountController(req, res) {
       throw new ResponseError(400, 'Invalid token, Please ensure the verify token is correctly inputted')
     }
 
-    let newData;
+    let userId;
     verifyUser.forEach((doc) => {
       const data = doc.data();
       if (data.verificationToken === token) {
-        newData = data;
+        userId = doc.id;
         return;
       } 
     })
     // Update the account to verified
-    newData['isVerified'] = true;
-    newData['verificationToken'] = null;
-    usersDb.doc(newData['id']).set(newData);
+    usersDb.doc(userId).update({
+      isVerified: true,
+      verificationToken: FieldValue.delete(),
+      updatedAt: (new Date()).toISOString(),
+    });
 
     return sendSuccess(res, 200, {
       'message': 'Your account has been verified successfully. You can login.'

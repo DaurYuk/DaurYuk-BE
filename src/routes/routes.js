@@ -1,18 +1,25 @@
-// Express dependency
+// npm Packages dependency
 const express = require('express');
 const { checkSchema, query } = require('express-validator');
+const multer = require('multer');
+const upload = multer();
+
 
 // Middlwares
 const log = require('../middlewares/log');
+const AuthorizationMiddleware = require('../middlewares/user/authorization');
 
 // Routes
 const ping = require('../controllers/misc/ping');
 const SignupController = require('../controllers/user/signup');
 const VerifyAccountController = require('../controllers/user/verify_account');
 const LoginController = require('../controllers/user/login');
+const ImageDetectionController = require('../controllers/detection/detect');
+const GetDetectionHistoryController = require('../controllers/detection/history');
 
 // JSON Body Validation Schemas
-const userCredentialSchema = require('../utils/schemas/UserCredentialSchema');
+const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
+const RegisterSchema = require('../utils/schemas/RegisterSchema');
 
 const app = express();
 
@@ -23,8 +30,12 @@ app.use(express.json());
 app.get('/ping', ping);
 
 // User Credentials
-app.post('/register', checkSchema(userCredentialSchema), SignupController);
+app.post('/register', checkSchema(RegisterSchema), SignupController);
 app.get('/verify-account', query('token').notEmpty(), VerifyAccountController);
-app.post('/login', checkSchema(userCredentialSchema), LoginController);
+app.post('/login', checkSchema(UserCredentialSchema), LoginController);
+
+// Image Detection
+app.post('/detect', AuthorizationMiddleware, upload.single('image'), ImageDetectionController);
+app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryController);
 
 module.exports = app;

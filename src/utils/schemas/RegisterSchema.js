@@ -1,9 +1,13 @@
-const UserCredentialSchema = {
+const RegisterSchema = {
   email: {
     isEmail: {
       bail: true,
       errorMessage: 'Email address is invalid. Please input your valid email address'
     }
+  },
+  name: {
+    notEmpty: true,
+    errorMessage: 'Please input your correct name.'
   },
   password: {
     notEmpty: true,
@@ -11,4 +15,4 @@ const UserCredentialSchema = {
   },
 }
 
-module.exports = UserCredentialSchema;
+module.exports = RegisterSchema;

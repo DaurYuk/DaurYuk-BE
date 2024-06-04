@@ -13,7 +13,7 @@ async function SignupController(req, res) {
       throw new ResponseError(400, validate.array({ onlyFirstError: true })[0].msg);
     }
 
-    const { email, password } = req.body;
+    const { email, name, password } = req.body;
 
     const emailExist = await usersDb.where('email', '==', email).get();
 
@@ -24,13 +24,19 @@ async function SignupController(req, res) {
     const newUserUuid = crypto.randomUUID();
 
     const verifyToken = crypto.randomBytes(48).toString('hex');
-    
+
+    const time = (new Date()).toISOString();
     await usersDb.doc(newUserUuid).set({
       id: newUserUuid,
+      profile: {
+        name: name,
+      },
       email: email,
       password: await encryptPassword(password),
       isVerified: false,
-      verificationToken: verifyToken
+      verificationToken: verifyToken,
+      insertedAt: time,
+      updatedAt: time,
     });
 
     sendVerifyAccountLink(verifyToken, email);
