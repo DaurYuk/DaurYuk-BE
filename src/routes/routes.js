@@ -16,6 +16,8 @@ const VerifyAccountController = require('../controllers/user/verify_account');
 const LoginController = require('../controllers/user/login');
 const ImageDetectionController = require('../controllers/detection/detect');
 const GetDetectionHistoryController = require('../controllers/detection/history');
+const SetProfileController = require('../controllers/user/profile');
+const { GetArticlesListController, GetArticleController } = require('../controllers/article/get_article');
 
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
@@ -37,5 +39,9 @@ app.post('/login', checkSchema(UserCredentialSchema), LoginController);
 // Image Detection
 app.post('/detect', AuthorizationMiddleware, upload.single('image'), ImageDetectionController);
 app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryController);
+
+// Articles
+app.get('/articles', GetArticlesListController);
+app.get('/article/:id', GetArticleController)
 
 module.exports = app;
