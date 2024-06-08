@@ -4,12 +4,12 @@ const { checkSchema, query } = require('express-validator');
 const multer = require('multer');
 const upload = multer();
 
-
 // Middlwares
 const log = require('../middlewares/log');
 const AuthorizationMiddleware = require('../middlewares/user/authorization');
 
 // Routes
+const jwt = require('jsonwebtoken');
 const ping = require('../controllers/misc/ping');
 const SignupController = require('../controllers/user/signup');
 const VerifyAccountController = require('../controllers/user/verify_account');
@@ -23,6 +23,7 @@ const { GetArticlesListController, GetArticleController } = require('../controll
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
 const RegisterSchema = require('../utils/schemas/RegisterSchema');
+const getUserProfile = require('../controllers/user/getprofile');
 
 const app = express();
 
@@ -45,23 +46,30 @@ app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryControlle
 app.get('/articles', GetArticlesListController);
 app.get('/article/:id', GetArticleController)
 
-// Get Profile Information
-exports.getProfileInformation = async (req, res) => {
-    try {
-      const { id } = req.token;
-      const user = await getUserDataFromFirestore(id);
-  
-      if (!user) {
-        return sendError(res, 404, 'User not found');
-      }
-  
-      // Remove sensitive information from user object before sending it to the client
-      const { password, ...userProfile } = user;
-  
-      return sendSuccess(res, 200, userProfile);
-    } catch (error) {
-      return sendError(res, 500, 'Internal server error');
-    }
-  };
+//profile information
+// Middleware to verify JWT and extract userId
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+      const token = authHeader.split(' ')[1];
+
+      jwt.verify(token, 'TuKqpdm!6*%AUX!KQ&F$3rATiSTQy', (err, user) => {
+          if (err) {
+              return res.sendStatus(403);
+          }
+
+          req.userId = user.id; // Assuming the payload contains user ID as `id`
+          next();
+      });
+  } else {
+      res.sendStatus(401);
+  }
+};
+
+app.use(authenticateJWT);
+
+
+app.get('/getprofileinformation', getUserProfile)
 
 module.exports = app;
