@@ -23,6 +23,7 @@ const { GetArticlesListController, GetArticleController } = require('../controll
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
 const RegisterSchema = require('../utils/schemas/RegisterSchema');
+const UpdateRewardsBalanceController = require('../controllers/rewards/update');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.get('/profile', AuthorizationMiddleware, GetUserProfileController)
 // Image Detection
 app.post('/detect', AuthorizationMiddleware, upload.single('image'), ImageDetectionController);
 app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryController);
+app.get('/rewards-balance', AuthorizationMiddleware, query('point').isNumeric().withMessage('Please input with valid number'), UpdateRewardsBalanceController);
 
 // Articles
 app.get('/articles', GetArticlesListController);
