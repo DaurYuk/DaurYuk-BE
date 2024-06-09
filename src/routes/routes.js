@@ -16,14 +16,13 @@ const VerifyAccountController = require('../controllers/user/verify_account');
 const LoginController = require('../controllers/user/login');
 const ImageDetectionController = require('../controllers/detection/detect');
 const GetDetectionHistoryController = require('../controllers/detection/history');
-const SetProfileController = require('../controllers/user/profile');
+const GetUserProfileController = require('../controllers/user/profile');
 const { GetArticlesListController, GetArticleController } = require('../controllers/article/get_article');
 
 
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
 const RegisterSchema = require('../utils/schemas/RegisterSchema');
-const getUserProfile = require('../controllers/user/getprofile');
 
 const app = express();
 
@@ -38,6 +37,9 @@ app.post('/register', checkSchema(RegisterSchema), SignupController);
 app.get('/verify-account', query('token').notEmpty(), VerifyAccountController);
 app.post('/login', checkSchema(UserCredentialSchema), LoginController);
 
+// User Profile
+app.get('/profile', AuthorizationMiddleware, GetUserProfileController)
+
 // Image Detection
 app.post('/detect', AuthorizationMiddleware, upload.single('image'), ImageDetectionController);
 app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryController);
@@ -46,30 +48,5 @@ app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryControlle
 app.get('/articles', GetArticlesListController);
 app.get('/article/:id', GetArticleController)
 
-//profile information
-// Middleware to verify JWT and extract userId
-const authenticateJWT = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (authHeader) {
-      const token = authHeader.split(' ')[1];
-
-      jwt.verify(token, 'TuKqpdm!6*%AUX!KQ&F$3rATiSTQy', (err, user) => {
-          if (err) {
-              return res.sendStatus(403);
-          }
-
-          req.userId = user.id; // Assuming the payload contains user ID as `id`
-          next();
-      });
-  } else {
-      res.sendStatus(401);
-  }
-};
-
-app.use(authenticateJWT);
-
-
-app.get('/getprofileinformation', getUserProfile)
 
 module.exports = app;
