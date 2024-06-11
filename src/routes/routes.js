@@ -18,7 +18,9 @@ const ImageDetectionController = require('../controllers/detection/detect');
 const GetDetectionHistoryController = require('../controllers/detection/history');
 const GetUserProfileController = require('../controllers/user/profile');
 const { GetArticlesListController, GetArticleController } = require('../controllers/article/get_article');
-
+const UpdateRewardsBalanceController = require('../controllers/rewards/update');
+const GetRewardListController = require('../controllers/rewards/list');
+const ClaimRewardController = require('../controllers/rewards/claim');
 
 // JSON Body Validation Schemas
 const UserCredentialSchema = require('../utils/schemas/UserCredentialSchema');
@@ -40,9 +42,14 @@ app.post('/login', checkSchema(UserCredentialSchema), LoginController);
 // User Profile
 app.get('/profile', AuthorizationMiddleware, GetUserProfileController)
 
+// Reward System
+app.get('/rewards', AuthorizationMiddleware, GetRewardListController);
+app.get('/reward/claim', AuthorizationMiddleware, query('rewardId').isString().withMessage('Please input with correct Reward ID.'), ClaimRewardController);
+
 // Image Detection
 app.post('/detect', AuthorizationMiddleware, upload.single('image'), ImageDetectionController);
 app.get('/detect-history', AuthorizationMiddleware, GetDetectionHistoryController);
+app.get('/rewards-balance', AuthorizationMiddleware, query('point').isNumeric().withMessage('Please input with valid number'), UpdateRewardsBalanceController);
 
 // Articles
 app.get('/articles', GetArticlesListController);

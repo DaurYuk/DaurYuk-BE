@@ -30,6 +30,7 @@ async function SignupController(req, res) {
       id: newUserUuid,
       profile: {
         name: name,
+        rewards_balance: 0,
       },
       email: email,
       password: await encryptPassword(password),
