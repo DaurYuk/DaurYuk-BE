@@ -4,6 +4,7 @@
   "description": "DaurYuk Backend project, written in JavaScript and run on Node.js",
   "main": "index.js",
   "scripts": {
+    "prod": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +30,8 @@
   "dependencies": {
     "@google-cloud/firestore": "^7.7.0",
     "@google-cloud/storage": "^7.11.1",
+    "@tensorflow/tfjs": "^4.20.0",
+    "@tensorflow/tfjs-node": "^4.20.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

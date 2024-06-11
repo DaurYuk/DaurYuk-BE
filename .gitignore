@@ -19,5 +19,8 @@ benchmarks/graphs
 # Google Cloud Service Account Private Key
 service-account.json
 
+# TensorFlow model cache file
+.tf_model_cache
+
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore

@@ -9,7 +9,6 @@ const log = require('../middlewares/log');
 const AuthorizationMiddleware = require('../middlewares/user/authorization');
 
 // Routes
-const jwt = require('jsonwebtoken');
 const ping = require('../controllers/misc/ping');
 const SignupController = require('../controllers/user/signup');
 const VerifyAccountController = require('../controllers/user/verify_account');
