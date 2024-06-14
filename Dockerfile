@@ -12,10 +12,6 @@ COPY package.json /app/package.json
 # Run npm i
 RUN npm install --omit=dev
 
-# Adjust container user
-RUN addgroup -S runner && adduser -S runner -G runner
-USER runner
-
 # Expose port 8080
 EXPOSE 8080
 
