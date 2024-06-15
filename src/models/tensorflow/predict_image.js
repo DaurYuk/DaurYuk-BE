@@ -19,7 +19,6 @@ async function PredictImage(image) {
     'Paper',
     'Plastic',
     'Textile Trash',
-    'Vegetation'
   ];
 
   const prediction = model.predict(tensor);

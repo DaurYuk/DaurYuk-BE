@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node
 
 # Change directory to app
 RUN mkdir /app
