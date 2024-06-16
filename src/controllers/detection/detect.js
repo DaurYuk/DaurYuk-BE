@@ -21,6 +21,10 @@ async function ImageDetectionController(req, res) {
     const detectionId = crypto.randomBytes(12).toString('hex');
     const { buffer, mimetype } = req.file;
 
+    if (!(mimetype === "image/jpeg" || mimetype === "image/png")) {
+      throw new ResponseError(400, "You must submit either PNG or JPG file.");
+    }
+
     const predictLabel = await PredictImage(buffer);
     const uploadedImageUrl = await uploadImageToCloudStorage(detectionId, buffer, mimetype);
     

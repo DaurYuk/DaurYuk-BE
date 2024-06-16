@@ -8,7 +8,8 @@ async function PredictImage(image) {
     .decodeJpeg(image)
     .resizeNearestNeighbor([300, 300])
     .expandDims()
-    .toFloat();
+    .toFloat()
+    .div(tf.scalar(255.0));
 
   const labels = [
     'Cardboard',
