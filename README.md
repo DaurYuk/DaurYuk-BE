@@ -63,6 +63,8 @@ cd DaurYuk-BE
 npm install
 ```
 
+4. Create new `.env` file before run the project, where the example can be found in the `.env.example` [here](./.env.example).
+
 4. Run the application by execute the command below
 ```bash
 node index.js
